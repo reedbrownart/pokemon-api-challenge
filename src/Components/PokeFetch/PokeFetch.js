@@ -17,16 +17,30 @@ class PokeFetch extends Component {
     this.setState({
       time: this.state.time - 1
     })
+    console.log('tick')
   }
 
+  // myTimer = () => {
+  //   let myTimer = setInterval(() => this.tick(), 1000);
+  //   if (this.state.time < 0) {
+  //     clearInterval(myTimer);
+  //   }
+  // }
+
+  myTimer = () => { setInterval(() => this.tick(), 1000)};
+
+  stopTimer = () => {clearInterval(this.myTimer)};
+
   fetchPokemon() {
+    console.log('fetching pokemon');
+    
+    if (this.state.time < 0) {
+      this.stopTimer();
+    }
+
     this.setState({
       time: 10
     })
-
-    ///////////////////////
-    clearInterval(myTimer);
-    ///////////////////////
 
     let min = Math.ceil(1);
     let max = Math.floor(152);
@@ -43,9 +57,8 @@ class PokeFetch extends Component {
       })
       .catch((err) => console.log(err))
 
-      ///////////////////////////////////////////////////
-      var myTimer = setInterval(() => this.tick(), 1000);
-      ///////////////////////////////////////////////////
+      this.myTimer();
+
   }
 
   isTimeUp() {
@@ -56,7 +69,7 @@ class PokeFetch extends Component {
   }
 
   isPokemonHidden() {
-    if (this.state.time >= 0) {
+    if (this.state.time > 0) {
       return true
     } else {
       return false
